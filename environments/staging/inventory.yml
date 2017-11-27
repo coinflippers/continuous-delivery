@@ -1,0 +1,7 @@
+---
+all:
+  hosts:
+    mgmt:
+      ansible_host: 192.168.10.10
+    slotmachine:
+      ansible_host: 192.168.10.11
