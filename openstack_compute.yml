@@ -1,0 +1,61 @@
+---
+  - hosts: localhost
+
+    vars:
+      - auth_url: https://labcloudftk.lnu.se:5000
+      - project: Group01_project
+      - ansible: mgmt
+      - network: coinflippers_lan
+      - subnet: coinflippers_subnet
+      - range: 192.168.10.0/24
+      - router: coinflippers_router
+      - key_name: coinflippers
+
+
+    vars_prompt:
+      - name: "username"
+        prompt: "Openstack Username"
+      - name: "password"
+        prompt: "Openstack Password"
+
+    vars:
+      auth_url: https://labcloudftk.lnu.se:5000
+
+    tasks:
+      - name: Create ports with fixed ips
+        os_port:
+          auth:
+            auth_url: "{{ auth_url }}"
+            username: "{{ username }}"
+            password: "{{ password }}"
+            project_name: "{{ project }}"
+          name: "{{ item }}_port"
+          state: present
+          network: "{{ network }}"
+          fixed_ips:
+            - ip_address: "{{ hostvars[item]['ansible_host'] }}"
+        when: item != "mgmt"
+        with_items: "{{ groups['all'] }}"
+
+      - name: Create instances
+        os_server:
+          auth:
+            auth_url: "{{ auth_url }}"
+            username: "{{ username }}"
+            password: "{{ password }}"
+            project_name: "{{ project }}"
+          state: present
+          name: "{{ item }}"
+          image: "{{ hostvars[item]['image'] }}"
+          flavor: "{{ hostvars[item]['flavor'] }}"
+          nics:
+            - port-name: "{{ item }}_port"
+          security_groups: "{{ hostvars[item]['security_groups'] }}"
+          key_name: cloud
+          auto_ip: "{{ hostvars[item]['public_ip'] }}"
+          userdata: |
+            {%- raw -%}#!/bin/bash
+            sudo apt-get install -y python
+            {% endraw %}
+        when: item != "mgmt"
+        with_items: "{{ groups['all'] }}"
