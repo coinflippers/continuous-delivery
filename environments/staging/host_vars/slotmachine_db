@@ -1,6 +1,6 @@
 flavor: cpu1-ram512-disk10
 image: a560499c-18fc-416f-b81b-acc3b880c543
-public_ip: true
+public_ip: false
 security_groups: default,ssh
 
-nodejs_version: 8.9.2
+mongodb_version: 3.6.0
