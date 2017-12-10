@@ -26,10 +26,7 @@
     update_cache: yes
 
 - name: Install docker-compose
-  get_url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-`uname -s`-`uname -m`
+  get_url: 
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-`uname -s`-`uname -m`
     dest: /usr/local/bin/docker-compose
-
-- name: Add executable permissions to docker-compose
-  file: 
-    dest: /usr/local/bin/docker-compose
-    mode: a+x
+    mode: u+x
