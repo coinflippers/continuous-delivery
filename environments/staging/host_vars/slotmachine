@@ -4,3 +4,4 @@ public_ip: true
 security_groups: default,ssh
 
 nodejs_version: 8.9.2
+docker_compose_version: 1.17.1

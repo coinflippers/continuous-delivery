@@ -8,6 +8,7 @@
     become: yes
     roles:
      - node
+     - docker
 
   - hosts: slotmachine_db
     become: yes
