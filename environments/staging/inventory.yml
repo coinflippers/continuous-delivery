@@ -11,3 +11,5 @@ all:
           ansible_host: 192.168.10.11
         slotmachine_db:
           ansible_host: 192.168.10.12
+        jenkins:
+          ansible_host: 192.168.10.13

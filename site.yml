@@ -14,3 +14,7 @@
     become: yes
     roles:
       - mongodb
+
+  - hosts: jenkins
+    become: yes
+    roles:
