@@ -18,3 +18,4 @@
   - hosts: jenkins
     become: yes
     roles:
+      - jenkins
