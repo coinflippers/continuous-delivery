@@ -8,3 +8,13 @@
   get_url:
     url: https://pkg.jenkins.io/debian-stable binary/
     dest: /etc/apt/sources.list
+
+- name: Upgrade all packages to the latest version
+  apt:
+    name: "*"
+    state: latest
+
+- name: Install the package Jenkins
+  apt:
+    name: jenkins
+    state: present
