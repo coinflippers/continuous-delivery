@@ -15,6 +15,7 @@
   apt_repository:
     repo: deb https://pkg.jenkins.io/debian binary/
     state: present
+    update_cache: yes
 
 - name: Ensure Jenkins is installed.
   apt:
@@ -28,3 +29,59 @@
     owner: jenkins
     group: jenkins
     mode: 0775
+
+- name: Modify variables in init file
+  lineinfile:
+    dest: /etc/default/jenkins
+    insertafter: '^{{ item.option }}='
+    regexp: '^{{ item.option}}=\"\${{ item.option }} '
+    line: '{{ item.option }}="${{ item.option }} {{ item.value }}"'
+    state: present
+  with_items:
+    - option: JENKINS_ARGS
+      value: --prefix=""
+    - option: JAVA_ARGS
+      value: -Djenkins.install.runSetupWizard=false
+  register: jenkins_init_prefix
+
+
+- name: Set the Jenkins home directory
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^JENKINS_HOME=.*'
+    line: 'JENKINS_HOME=/var/lib/jenkins'
+  register: jenkins_home_config
+
+- name: Immediately restart Jenkins on init config changes.
+  service: name=jenkins state=restarted
+  when: jenkins_init_prefix.changed
+
+
+- name: Set HTTP port in Jenkins config.
+  lineinfile:
+    backrefs: yes
+    dest: "/etc/sysconfig/jenkins"
+    regexp: '^JENKINS_PORT='
+    line: 'JENKINS_PORT=8080'
+  register: jenkins_http_config
+
+
+- name: Ensure jenkins_home {{ jenkins_home }} exists
+  file:
+    path: /var/lib/jenkins
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: u+rwx
+
+
+- name: Create custom init scripts directory.
+  file:
+    path: /var/lib/jenkins/init.groovy.d
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: 0775
+
+- name: Trigger handlers immediately in case Jenkins was installed
+  meta: flush_handlers
