@@ -8,24 +8,24 @@
 
 - name: Add Jenkins apt repository key.
   apt_key:
-    url: "https://pkg.jenkins.io/debian/jenkins.io.key"
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
     state: present
 
 - name: Add Jenkins apt repository.
   apt_repository:
-    repo: "https://pkg.jenkins.io/debian/jenkins.io.key"
+    repo: https://pkg.jenkins.io/debian/jenkins.io.key
     state: present
     update_cache: yes
 
 - name: Ensure Jenkins is installed.
   apt:
     name: jenkins
-    state: "{{ jenkins_package_state }}"
+    state: present
 
 - name: configure default users
   template:
     src: basic-security.groovy
-    dest: "/var/lib/jenkins/init.groovy.d/basic-security.groovy"
-    owner: "jenkins"
-    group: "jenkins"
+    dest: /var/lib/jenkins/init.groovy.d/basic-security.groovy
+    owner: jenkins
+    group: jenkins
     mode: 0775
