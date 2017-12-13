@@ -1,22 +1,31 @@
 ---
-- name: Download jenkins repo
-  command: wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key
+- name: Ensure dependencies are installed.
+  apt:
+    name:
+      - curl
+      - apt-transport-https
+    state: installed
 
-- name: Add an Apt signing key, uses whichever key is at the URL
+- name: Add Jenkins apt repository key.
   apt_key:
-    url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+    url: "https://pkg.jenkins.io/debian/jenkins.io.key"
     state: present
 
-- name: Download
-  get_url:
-    url: https://pkg.jenkins.io/debian-stable binary/
-    dest: /etc/apt/sources.list
+- name: Add Jenkins apt repository.
+  apt_repository:
+    repo: "https://pkg.jenkins.io/debian/jenkins.io.key"
+    state: present
+    update_cache: yes
 
-- name: Update all packages to the latest version
-  apt:
-    upgrade: dist
-
-- name: Install the package Jenkins
+- name: Ensure Jenkins is installed.
   apt:
     name: jenkins
-    state: present
+    state: "{{ jenkins_package_state }}"
+
+- name: configure default users
+  template:
+    src: basic-security.groovy
+    dest: "/var/lib/jenkins/init.groovy.d/basic-security.groovy"
+    owner: "jenkins"
+    group: "jenkins"
+    mode: 0775
