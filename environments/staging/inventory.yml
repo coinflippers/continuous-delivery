@@ -9,7 +9,7 @@ all:
       hosts:
         slotmachine:
           ansible_host: 192.168.10.11
-        slotmachine_db:
+        slotmachine_production:
           ansible_host: 192.168.10.12
     jenkins:
       hosts:    
