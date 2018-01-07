@@ -3,7 +3,7 @@ image: a560499c-18fc-416f-b81b-acc3b880c543
 public_ip: true
 security_groups: default,ssh
 
-jenkins_admin_password_file: ""
+jenkins_admin_password_file: /var/lib/jenkins/secrets/initialAdminPassword
 jenkins_admin_username: admin
 jenkins_admin_password: admin
 jenkins_admin_token_file: ""
