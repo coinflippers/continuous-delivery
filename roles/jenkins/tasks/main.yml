@@ -91,6 +91,9 @@
 - name: Trigger handlers immediately in case Jenkins was installed
   meta: flush_handlers
 
+- name: Immediately restart Jenkins on http or user changes.
+  service: name=jenkins state=restarted
+
 - name: Remove Jenkins security init scripts after first startup.
   file:
     path: /var/lib/jenkins/init.groovy.d/basic-security.groovy
