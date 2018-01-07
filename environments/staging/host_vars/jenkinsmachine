@@ -2,3 +2,19 @@ flavor: cpu1-ram4096-disk20
 image: a560499c-18fc-416f-b81b-acc3b880c543
 public_ip: true
 security_groups: default,ssh
+
+jenkins_admin_password_file: ""
+jenkins_admin_username: admin
+jenkins_admin_password: admin
+jenkins_admin_token_file: ""
+jenkins_admin_token: ""
+jenkins_home: /var/lib/jenkins
+
+jenkins_plugins: []
+jenkins_plugins_state: present
+jenkins_plugin_updates_expiration: 86400
+jenkins_plugin_timeout: 30
+
+jenkins_hostname: localhost
+jenkins_http_port: 8080
+jenkins_url_prefix: ""
