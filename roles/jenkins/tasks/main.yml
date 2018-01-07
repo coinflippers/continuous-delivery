@@ -82,10 +82,10 @@
 
 - name: Create custom init scripts directory.
   file:
-    path: "{{ jenkins_home }}/init.groovy.d"
+    path: /var/lib/jenkins/init.groovy.d
     state: directory
-    owner: "{{ jenkins_process_user }}"
-    group: "{{ jenkins_process_group }}"
+    owner: jenkins
+    group: jenkins
     mode: 0775
 
 - name: Trigger handlers immediately in case Jenkins was installed
@@ -93,7 +93,7 @@
 
 - name: Remove Jenkins security init scripts after first startup.
   file:
-    path: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+    path: /var/lib/jenkins/init.groovy.d/basic-security.groovy
     state: absent
 
 - include: plugins.yml
