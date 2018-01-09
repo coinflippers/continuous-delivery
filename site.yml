@@ -18,4 +18,5 @@
   - hosts: jenkins
     become: yes
     roles:
-      - jenkins
+      - role: geerlingguy.java
+      - role: geerlingguy.jenkins
