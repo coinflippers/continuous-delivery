@@ -18,3 +18,10 @@ jenkins_plugin_timeout: 30
 jenkins_hostname: localhost
 jenkins_http_port: 8080
 jenkins_url_prefix: ""
+
+jenkins_plugins:
+  - http-post
+  - junit-attachments
+  - github@1.28.1
+  - git@3.7.0
+  - junit@1.23
