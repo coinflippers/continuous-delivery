@@ -26,7 +26,15 @@
   apt:
     name: jenkins
     state: present
-    notify: configure default users
+
+- name: configure default users
+  template:
+    src: basic-security.groovy
+    dest: /var/lib/jenkins/init.groovy.d/basic-security.groovy
+    owner: jenkins
+    group: jenkins
+    mode: 0775
+  register: jenkins_users_config
 
 - name: Modify variables in init file
   lineinfile:
