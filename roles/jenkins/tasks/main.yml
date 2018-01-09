@@ -26,6 +26,7 @@
   apt:
     name: jenkins
     state: present
+    notify: configure default users
 
 - name: Modify variables in init file
   lineinfile:
