@@ -20,3 +20,4 @@
     roles:
       - role: geerlingguy.java
       - role: geerlingguy.jenkins
+      - jenkinssetup
