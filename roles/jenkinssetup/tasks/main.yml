@@ -6,5 +6,5 @@
       if (!jenkins.installState.isSetupComplete()) {
         InstallState.INITIAL_SETUP_COMPLETED.initializeState()
       }
-    user: "{{ admin.userid }}"
-    password: "{{ admin.password }}"
+    user: "admin"
+    password: "admin"
