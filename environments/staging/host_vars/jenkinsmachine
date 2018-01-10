@@ -12,3 +12,4 @@ jenkins_plugins:
   - github
   - git
   - junit
+  - github-oauth
